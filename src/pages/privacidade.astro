@@ -1,0 +1,69 @@
+---
+import Layout from '../layouts/Layout.astro';
+const CONTACT_EMAIL = 'contato@portaldeferramentas.com.br';
+const LAST_UPDATED = '07 de julho de 2026';
+---
+
+<Layout
+  title="Política de Privacidade — Portal de Ferramentas"
+  description="Saiba como o Portal de Ferramentas trata dados, cookies e anúncios."
+>
+  <article class="prose dark:prose-invert mx-auto max-w-3xl px-4 py-16">
+    <p class="eyebrow not-prose">Legal</p>
+    <h1 class="font-display">Política de Privacidade</h1>
+    <p class="not-prose text-sm" style="color: var(--color-text-muted);">Última atualização: {LAST_UPDATED}</p>
+
+    <h2>1. Quais dados coletamos</h2>
+    <p>
+      A maioria das ferramentas deste site funciona diretamente no seu
+      navegador — arquivos e textos que você insere não são enviados a
+      nenhum servidor, exceto quando explicitamente informado na própria
+      página da ferramenta (por exemplo, o Conversor de Moedas consulta uma
+      API externa de cotações).
+    </p>
+    <p>
+      Como a maioria dos sites, coletamos automaticamente dados técnicos
+      básicos de acesso (como endereço IP, tipo de navegador e páginas
+      visitadas), usados apenas para estatísticas gerais de uso e segurança.
+    </p>
+
+    <h2>2. Cookies e publicidade</h2>
+    <p>
+      Este site pode exibir anúncios através do Google AdSense. O Google e
+      seus parceiros podem usar cookies para exibir anúncios com base em
+      visitas anteriores suas a este e a outros sites.
+    </p>
+    <p>
+      Você pode desativar a publicidade personalizada acessando as
+      <a href="https://myadcenter.google.com/" target="_blank" rel="noopener noreferrer"> configurações de anúncios do Google</a>.
+      Terceiros também podem usar cookies próprios para exibir anúncios
+      personalizados; consulte diretamente as políticas de cada um.
+    </p>
+
+    <h2>3. Estatísticas de uso</h2>
+    <p>
+      Podemos usar ferramentas de análise (como Google Analytics) para
+      entender, de forma agregada, como o site é utilizado. Esses dados não
+      identificam você pessoalmente.
+    </p>
+
+    <h2>4. Seus direitos</h2>
+    <p>
+      Você pode, a qualquer momento, gerenciar ou desativar cookies
+      diretamente nas configurações do seu navegador. Para dúvidas sobre
+      esta política, entre em contato pelo e-mail abaixo.
+    </p>
+
+    <h2>5. Alterações nesta política</h2>
+    <p>
+      Esta política pode ser atualizada periodicamente. A data da última
+      atualização está sempre indicada no topo desta página.
+    </p>
+
+    <h2>6. Contato</h2>
+    <p>
+      Dúvidas sobre esta política? Escreva para{' '}
+      <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>.
+    </p>
+  </article>
+</Layout>

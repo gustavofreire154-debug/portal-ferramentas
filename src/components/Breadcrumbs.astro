@@ -1,0 +1,42 @@
+---
+// Breadcrumbs cumprem duas funções ao mesmo tempo:
+// 1) Visual: ajudam o usuário a entender "onde ele está" no site.
+// 2) SEO: o bloco JSON-LD abaixo descreve a mesma trilha para o Google,
+//    que pode exibi-la diretamente no resultado de busca (em vez da URL crua).
+interface Crumb {
+  name: string;
+  path: string; // caminho relativo, ex: "/ferramentas"
+}
+
+interface Props {
+  items: Crumb[];
+}
+
+const { items } = Astro.props;
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: items.map((item, index) => ({
+    '@type': 'ListItem',
+    position: index + 1,
+    name: item.name,
+    item: new URL(item.path, Astro.site).toString(),
+  })),
+};
+---
+
+<nav aria-label="breadcrumb" class="mb-6 flex flex-wrap items-center gap-1.5 text-xs" style="color: var(--color-text-muted);">
+  {items.map((item, index) => (
+    <>
+      {index > 0 && <span aria-hidden="true">/</span>}
+      {index === items.length - 1 ? (
+        <span aria-current="page">{item.name}</span>
+      ) : (
+        <a href={item.path} class="transition hover:text-[var(--color-accent)]">{item.name}</a>
+      )}
+    </>
+  ))}
+</nav>
+
+<script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />

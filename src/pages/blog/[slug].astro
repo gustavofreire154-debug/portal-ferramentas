@@ -1,0 +1,59 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import AdSlot from '../../components/AdSlot.astro';
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', (post) => post.data.status === 'published');
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+interface Props {
+  post: CollectionEntry<'blog'>;
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+const formattedDate = post.data.publishDate.toLocaleDateString('pt-BR', {
+  day: '2-digit',
+  month: 'long',
+  year: 'numeric',
+});
+
+const breadcrumbItems = [
+  { name: 'Início', path: '/' },
+  { name: 'Blog', path: '/blog' },
+  { name: post.data.title, path: `/blog/${post.id}` },
+];
+
+// Schema.org Article: identifica a página como um artigo de blog,
+// com data de publicação/atualização — ajuda o Google a mostrar
+// esses dados diretamente no resultado de busca.
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: post.data.title,
+  description: post.data.description,
+  datePublished: post.data.publishDate.toISOString(),
+  dateModified: (post.data.updatedDate ?? post.data.publishDate).toISOString(),
+  author: { '@type': 'Organization', name: 'Portal de Ferramentas' },
+};
+---
+
+<Layout title={post.data.seo.title} description={post.data.seo.description} type="article">
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(articleSchema)} />
+  <article class="mx-auto max-w-3xl px-4 py-16">
+    <Breadcrumbs items={breadcrumbItems} />
+    <span class="font-mono text-xs" style="color: var(--color-text-muted);">{formattedDate}</span>
+    <h1 class="font-display mt-2 text-3xl font-bold">{post.data.title}</h1>
+    <div class="prose dark:prose-invert mt-8 max-w-none">
+      <Content />
+    </div>
+
+    <AdSlot slot="toolBottom" />
+  </article>
+</Layout>

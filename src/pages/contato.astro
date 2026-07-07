@@ -1,0 +1,28 @@
+---
+import Layout from '../layouts/Layout.astro';
+// IMPORTANTE: troque este e-mail pelo seu e-mail de contato real antes
+// de aplicar para o Google AdSense.
+const CONTACT_EMAIL = 'contato@portaldeferramentas.com.br';
+---
+
+<Layout
+  title="Contato — Portal de Ferramentas"
+  description="Fale com a equipe do Portal de Ferramentas: dúvidas, sugestões de ferramentas ou problemas técnicos."
+>
+  <article class="mx-auto max-w-2xl px-4 py-16">
+    <p class="eyebrow">Contato</p>
+    <h1 class="font-display mt-2 text-3xl font-bold">Fale conosco</h1>
+    <p class="mt-4" style="color: var(--color-text-muted);">
+      Encontrou um problema em alguma ferramenta? Tem uma sugestão de
+      ferramenta nova? Escreva para a gente:
+    </p>
+
+    <a
+      href={`mailto:${CONTACT_EMAIL}`}
+      class="mt-6 inline-block rounded-lg px-5 py-3 text-sm font-medium text-white transition hover:opacity-90"
+      style="background: var(--color-accent);"
+    >
+      {CONTACT_EMAIL}
+    </a>
+  </article>
+</Layout>

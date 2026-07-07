@@ -1,0 +1,46 @@
+---
+// Página que lista TODAS as categorias — a mesma lógica de "molde
+// único, escala sozinho" que já usamos nas ferramentas e no blog.
+import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+import { categories } from '../../config/categories';
+
+const tools = await getCollection('tools');
+
+function countByCategory(slug: string) {
+  return tools.filter((t) => t.data.category === slug).length;
+}
+---
+
+<Layout
+  title="Categorias de Ferramentas"
+  description="Explore todas as categorias de ferramentas online gratuitas do portal."
+>
+  <section class="mx-auto max-w-6xl px-4 py-16">
+    <p class="eyebrow">Categorias</p>
+    <h1 class="font-display mt-2 text-3xl font-bold sm:text-4xl">Todas as categorias</h1>
+
+    <div class="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
+      {
+        categories.map((category) => (
+          <a
+            href={`/categorias/${category.slug}`}
+            class="group flex flex-col rounded-xl border p-4 transition hover:-translate-y-0.5"
+            style="border-color: var(--color-border); background: var(--color-surface);"
+          >
+            <span class="text-xl">{category.icon}</span>
+            <span class="font-display mt-2 text-sm font-semibold transition group-hover:text-[var(--color-accent)]">
+              {category.name}
+            </span>
+            <span class="mt-1 text-xs" style="color: var(--color-text-muted);">
+              {category.description}
+            </span>
+            <span class="mt-2 font-mono text-xs" style="color: var(--color-text-muted);">
+              {countByCategory(category.slug)} ferramentas
+            </span>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+</Layout>

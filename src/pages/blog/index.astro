@@ -1,0 +1,23 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import BlogCard from '../../components/BlogCard.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog', (post) => post.data.status === 'published')).sort(
+  (a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf()
+);
+---
+
+<Layout
+  title="Blog do Portal de Ferramentas"
+  description="Artigos e guias sobre as ferramentas do portal: como usar, dicas e exemplos práticos."
+>
+  <section class="mx-auto max-w-6xl px-4 py-16">
+    <p class="eyebrow">Blog</p>
+    <h1 class="font-display mt-2 text-3xl font-bold sm:text-4xl">Artigos e guias</h1>
+
+    <div class="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {posts.map((post) => <BlogCard post={post} />)}
+    </div>
+  </section>
+</Layout>

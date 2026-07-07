@@ -1,0 +1,60 @@
+---
+// Rota dinâmica: UMA página gera automaticamente a página de CADA
+// categoria (PDF, Imagem, Calculadoras...), listando só as ferramentas
+// daquela categoria. Mesmo padrão de "arquivo único que escala sozinho"
+// usado em /ferramentas/[slug].astro.
+import Layout from '../../layouts/Layout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { getCollection } from 'astro:content';
+import ToolCard from '../../components/ToolCard.astro';
+import { categories } from '../../config/categories';
+
+export async function getStaticPaths() {
+  return categories.map((category) => ({
+    params: { category: category.slug },
+    props: { category },
+  }));
+}
+
+interface Props {
+  category: (typeof categories)[number];
+}
+
+const { category } = Astro.props;
+const allTools = await getCollection('tools');
+const tools = allTools.filter((t) => t.data.category === category.slug);
+
+const breadcrumbItems = [
+  { name: 'Início', path: '/' },
+  { name: 'Categorias', path: '/categorias' },
+  { name: category.name, path: `/categorias/${category.slug}` },
+];
+---
+
+<Layout
+  title={`${category.name} — Ferramentas Online Grátis`}
+  description={`Ferramentas gratuitas de ${category.name}: ${category.description}.`}
+>
+  <section class="mx-auto max-w-6xl px-4 py-16">
+    <Breadcrumbs items={breadcrumbItems} />
+    <p class="eyebrow">Categoria</p>
+    <h1 class="font-display mt-2 flex items-center gap-3 text-3xl font-bold sm:text-4xl">
+      <span>{category.icon}</span>
+      {category.name}
+    </h1>
+    <p class="mt-3" style="color: var(--color-text-muted);">{category.description}</p>
+
+    {tools.length > 0 ? (
+      <div class="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {tools.map((tool) => <ToolCard tool={tool} />)}
+      </div>
+    ) : (
+      <div
+        class="mt-10 rounded-xl border border-dashed p-8 text-center text-sm"
+        style="border-color: var(--color-border); color: var(--color-text-muted);"
+      >
+        Ainda não temos ferramentas nesta categoria — em breve chegam novidades aqui.
+      </div>
+    )}
+  </section>
+</Layout>

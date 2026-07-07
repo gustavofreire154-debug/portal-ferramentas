@@ -1,0 +1,28 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  post: CollectionEntry<'blog'>;
+}
+
+const { post } = Astro.props;
+const formattedDate = post.data.publishDate.toLocaleDateString('pt-BR', {
+  day: '2-digit',
+  month: 'long',
+  year: 'numeric',
+});
+---
+
+<a
+  href={`/blog/${post.id}`}
+  class="reveal group flex flex-col rounded-xl border p-5 transition hover:-translate-y-0.5"
+  style="border-color: var(--color-border); background: var(--color-surface);"
+>
+  <span class="font-mono text-xs" style="color: var(--color-text-muted);">{formattedDate}</span>
+  <h3 class="font-display mt-2 font-semibold transition group-hover:text-[var(--color-accent)]">
+    {post.data.title}
+  </h3>
+  <p class="mt-1.5 text-sm" style="color: var(--color-text-muted);">
+    {post.data.description}
+  </p>
+</a>

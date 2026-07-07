@@ -1,0 +1,35 @@
+---
+// Card reutilizado em "Destaques", "Mais usadas", "Novidades" e nas
+// páginas de categoria. Mudou o visual do card? Muda aqui, muda em
+// todo lugar do site.
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  tool: CollectionEntry<'tools'>;
+  badge?: string;
+}
+
+const { tool, badge } = Astro.props;
+---
+
+<a
+  href={`/ferramentas/${tool.id}`}
+  class="reveal group relative flex flex-col rounded-xl border p-5 transition hover:-translate-y-0.5"
+  style="border-color: var(--color-border); background: var(--color-surface);"
+>
+  {badge && (
+    <span
+      class="absolute right-4 top-4 rounded-full px-2 py-0.5 font-mono text-[10px] uppercase tracking-wide"
+      style="background: var(--color-accent-soft); color: var(--color-accent);"
+    >
+      {badge}
+    </span>
+  )}
+  <span class="text-2xl">{tool.data.icon}</span>
+  <h3 class="font-display mt-3 font-semibold transition group-hover:text-[var(--color-accent)]">
+    {tool.data.name}
+  </h3>
+  <p class="mt-1.5 text-sm" style="color: var(--color-text-muted);">
+    {tool.data.description}
+  </p>
+</a>

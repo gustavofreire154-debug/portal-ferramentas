@@ -1,0 +1,24 @@
+---
+// Página que lista TODAS as ferramentas do portal, com um campo de busca
+// simples (filtragem no próprio navegador — sem precisar de servidor).
+import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+import ToolCard from '../../components/ToolCard.astro';
+
+const tools = await getCollection('tools');
+---
+
+<Layout
+  title="Todas as Ferramentas"
+  description="Veja todas as ferramentas online gratuitas disponíveis no portal."
+>
+  <section class="mx-auto max-w-6xl px-4 py-16">
+    <p class="eyebrow">Ferramentas</p>
+    <h1 class="font-display mt-2 text-3xl font-bold sm:text-4xl">Todas as ferramentas</h1>
+    <p class="mt-3" style="color: var(--color-text-muted);">{tools.length} ferramentas disponíveis, sem cadastro.</p>
+
+    <div class="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {tools.map((tool) => <ToolCard tool={tool} />)}
+    </div>
+  </section>
+</Layout>

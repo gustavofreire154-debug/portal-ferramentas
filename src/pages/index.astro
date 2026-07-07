@@ -1,0 +1,77 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Hero from '../components/Hero.astro';
+import CategoryGrid from '../components/CategoryGrid.astro';
+import ToolCard from '../components/ToolCard.astro';
+import BlogCard from '../components/BlogCard.astro';
+import Faq from '../components/Faq.astro';
+import Newsletter from '../components/Newsletter.astro';
+import AdSlot from '../components/AdSlot.astro';
+import { getCollection } from 'astro:content';
+
+const tools = await getCollection('tools');
+const posts = (await getCollection('blog', (post) => post.data.status === 'published')).sort(
+  (a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf()
+);
+
+const featured = tools.filter((t) => t.data.featured).slice(0, 3);
+const popular = tools.filter((t) => t.data.popular).slice(0, 3);
+const recent = tools.filter((t) => t.data.isNew).slice(0, 3);
+const recentPosts = posts.slice(0, 3);
+---
+
+<Layout
+  title="Portal de Ferramentas Online Grátis"
+  description="Dezenas de ferramentas online gratuitas: calculadoras, conversores, PDF, imagem e mais. Sem cadastro."
+>
+  <Hero tools={tools} />
+  <CategoryGrid tools={tools} />
+
+  {featured.length > 0 && (
+    <section class="mx-auto max-w-6xl px-4 py-16">
+      <p class="eyebrow reveal">Em destaque</p>
+      <h2 class="font-display reveal mt-2 text-2xl font-semibold sm:text-3xl">Ferramentas em destaque</h2>
+      <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {featured.map((tool) => <ToolCard tool={tool} />)}
+      </div>
+    </section>
+  )}
+
+  {popular.length > 0 && (
+    <section class="mx-auto max-w-6xl px-4 py-16">
+      <p class="eyebrow reveal">Populares</p>
+      <h2 class="font-display reveal mt-2 text-2xl font-semibold sm:text-3xl">Mais usadas</h2>
+      <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {popular.map((tool) => <ToolCard tool={tool} badge="popular" />)}
+      </div>
+    </section>
+  )}
+
+  {recent.length > 0 && (
+    <section class="mx-auto max-w-6xl px-4 py-16">
+      <p class="eyebrow reveal">Acabaram de chegar</p>
+      <h2 class="font-display reveal mt-2 text-2xl font-semibold sm:text-3xl">Novidades</h2>
+      <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {recent.map((tool) => <ToolCard tool={tool} badge="novo" />)}
+      </div>
+    </section>
+  )}
+
+  {/* Anúncio só depois de 3 seções de conteúdo real (nunca logo após o
+      hero) — o Google recomenda ter conteúdo substancial antes do primeiro
+      anúncio da página. */}
+  <AdSlot slot="homeMiddle" />
+
+  {recentPosts.length > 0 && (
+    <section class="mx-auto max-w-6xl px-4 py-16">
+      <p class="eyebrow reveal">Do blog</p>
+      <h2 class="font-display reveal mt-2 text-2xl font-semibold sm:text-3xl">Artigos recentes</h2>
+      <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {recentPosts.map((post) => <BlogCard post={post} />)}
+      </div>
+    </section>
+  )}
+
+  <Faq />
+  <Newsletter />
+</Layout>

@@ -1,0 +1,118 @@
+---
+// Layout.astro envolve TODAS as páginas do site: aqui vivem as fontes,
+// o header, o footer, e os scripts globais (dark mode + animações).
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { ADSENSE_CLIENT_ID } from '../config/ads';
+
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+  type?: 'website' | 'article';
+}
+
+const { title, description, image = '/og-default.png', type = 'website' } = Astro.props;
+
+// Astro.url já vem com o domínio completo (definido em astro.config.mjs via
+// "site"). É a partir dele que montamos a URL canônica e as imagens de
+// compartilhamento com caminho absoluto (exigido pelo Open Graph).
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const imageURL = new URL(image, Astro.site);
+---
+
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="google-site-verification" content="zlK5JrYRW-W-uWDk5cW2B4YSQjhEQESS1Wr5bg9uCrI" />
+    <link rel="canonical" href={canonicalURL} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Open Graph: como o link aparece quando compartilhado no WhatsApp, Facebook, LinkedIn -->
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content={type} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:image" content={imageURL} />
+    <meta property="og:site_name" content="Portal de Ferramentas" />
+    <meta property="og:locale" content="pt_BR" />
+
+    <!-- Twitter/X Card: mesma ideia do Open Graph, mas lida por esta rede específica -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={imageURL} />
+
+    <!-- Schema.org (JSON-LD): dados estruturados que ajudam o Google a
+         entender que este site é uma Organização/Website, o que pode gerar
+         resultados mais ricos na busca (ex: caixa de busca no próprio Google). -->
+    <script type="application/ld+json" set:html={JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'WebSite',
+      name: 'Portal de Ferramentas',
+      url: Astro.site,
+      potentialAction: {
+        '@type': 'SearchAction',
+        target: `${Astro.site}ferramentas?q={search_term_string}`,
+        'query-input': 'required name=search_term_string',
+      },
+    })} />
+
+    <slot name="head" />
+
+    {ADSENSE_CLIENT_ID && (
+      <script
+        async
+        src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT_ID}`}
+        crossorigin="anonymous"
+      />
+    )}
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+
+    <script is:inline>
+      // Roda ANTES da página pintar, para o usuário nunca ver um "flash"
+      // de tema errado (ex: abrir em claro e mudar pra escuro 1 frame depois).
+      const saved = localStorage.getItem('theme');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      if (saved === 'dark' || (!saved && prefersDark)) {
+        document.documentElement.classList.add('dark');
+      }
+    </script>
+  </head>
+  <body class="font-body" style="background: var(--color-bg); color: var(--color-text);">
+    <Header />
+    <main>
+      <slot />
+    </main>
+    <Footer />
+
+    <script>
+      // Anima seções ao entrar na tela (classe .reveal -> .is-visible).
+      // Respeita "prefers-reduced-motion" (o CSS global já cuida disso).
+      const items = document.querySelectorAll('.reveal');
+      const observer = new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-visible');
+              observer.unobserve(entry.target);
+            }
+          }
+        },
+        { threshold: 0.15 }
+      );
+      items.forEach((item) => observer.observe(item));
+    </script>
+  </body>
+</html>

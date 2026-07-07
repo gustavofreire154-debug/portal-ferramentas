@@ -1,0 +1,42 @@
+---
+const faqs = [
+  {
+    question: 'O portal é realmente gratuito?',
+    answer: 'Sim. Todas as ferramentas são gratuitas e sem limite de uso.',
+  },
+  {
+    question: 'Preciso criar uma conta?',
+    answer: 'Não. Você pode usar qualquer ferramenta sem cadastro.',
+  },
+  {
+    question: 'Meus arquivos ficam salvos em algum servidor?',
+    answer:
+      'A maioria das ferramentas processa os arquivos direto no seu navegador. Quando isso não for possível, deixamos isso claro na própria página da ferramenta.',
+  },
+  {
+    question: 'Posso sugerir uma ferramenta nova?',
+    answer: 'Sim! Use a página de contato para enviar sua sugestão.',
+  },
+];
+---
+
+<section class="mx-auto max-w-3xl px-4 py-16">
+  <p class="eyebrow reveal">Dúvidas frequentes</p>
+  <h2 class="font-display reveal mt-2 text-2xl font-semibold sm:text-3xl">Perguntas frequentes</h2>
+
+  <div class="mt-8 divide-y" style="border-color: var(--color-border);">
+    {
+      faqs.map((item) => (
+        <details class="reveal group py-4">
+          <summary class="flex cursor-pointer list-none items-center justify-between font-medium">
+            {item.question}
+            <span class="ml-4 shrink-0 transition group-open:rotate-45" style="color: var(--color-accent);">+</span>
+          </summary>
+          <p class="mt-2 text-sm" style="color: var(--color-text-muted);">
+            {item.answer}
+          </p>
+        </details>
+      ))
+    }
+  </div>
+</section>

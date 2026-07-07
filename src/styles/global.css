@@ -1,0 +1,79 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+/* Ativa o dark mode por CLASSE (não só por preferência do sistema).
+   Isso é o que permite o botão de alternar tema funcionar manualmente. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ============================================================
+   TOKENS DE DESIGN
+   Aqui vivem TODAS as cores e fontes do site, em um único lugar.
+   Quer mudar a cor de destaque do site inteiro? Troque --color-accent
+   e pronto — todo botão, link e badge que usa "accent" muda junto.
+   ============================================================ */
+@theme {
+  --font-display: "Space Grotesk", sans-serif;
+  --font-body: "Inter", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+}
+
+:root {
+  --color-bg: #f7f8f7;
+  --color-surface: #ffffff;
+  --color-border: #e2e5e1;
+  --color-text: #14171a;
+  --color-text-muted: #5b6460;
+  --color-accent: #0e8f82;
+  --color-accent-soft: #e3f3f1;
+  --color-signal: #e98a2e;
+}
+
+.dark {
+  --color-bg: #0c0f0e;
+  --color-surface: #14191a;
+  --color-border: #232826;
+  --color-text: #edefec;
+  --color-text-muted: #9aa39d;
+  --color-accent: #2bd9c4;
+  --color-accent-soft: #10302c;
+  --color-signal: #f2a73b;
+}
+
+html {
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Elemento reaproveitado em várias seções: o "rótulo" técnico em
+   mono uppercase (ex: "EM DESTAQUE", "CATEGORIAS"). Ele é o fio
+   condutor visual do site — parece etiqueta de instrumento. */
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+/* Animação de entrada suave usada pelo IntersectionObserver (ver Header.astro) */
+.reveal {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}

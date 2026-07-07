@@ -1,0 +1,41 @@
+---
+import { categories } from '../config/categories';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  tools: CollectionEntry<'tools'>[];
+}
+
+const { tools } = Astro.props;
+
+function countByCategory(slug: string) {
+  return tools.filter((t) => t.data.category === slug).length;
+}
+---
+
+<section class="mx-auto max-w-6xl px-4 py-16">
+  <p class="eyebrow reveal">Categorias</p>
+  <h2 class="font-display reveal mt-2 text-2xl font-semibold sm:text-3xl">
+    Encontre pelo tipo de tarefa
+  </h2>
+
+  <div class="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
+    {
+      categories.map((category) => (
+        <a
+          href={`/categorias/${category.slug}`}
+          class="reveal group flex flex-col rounded-xl border p-4 transition hover:-translate-y-0.5"
+          style="border-color: var(--color-border); background: var(--color-surface);"
+        >
+          <span class="text-xl">{category.icon}</span>
+          <span class="font-display mt-2 text-sm font-semibold transition group-hover:text-[var(--color-accent)]">
+            {category.name}
+          </span>
+          <span class="mt-1 font-mono text-xs" style="color: var(--color-text-muted);">
+            {countByCategory(category.slug)} ferramentas
+          </span>
+        </a>
+      ))
+    }
+  </div>
+</section>

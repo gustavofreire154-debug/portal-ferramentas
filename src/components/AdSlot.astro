@@ -1,0 +1,39 @@
+---
+// AdSlot: um "encaixe" de anúncio reutilizável. Enquanto a conta AdSense
+// não estiver aprovada (ADSENSE_CLIENT_ID vazio em src/config/ads.ts),
+// este componente não renderiza NADA — nem um espaço vazio, nem um aviso.
+// Isso evita quebrar o layout ou prejudicar a experiência antes da
+// aprovação.
+//
+// Regra de ouro seguida aqui (detalhada na resposta do chat): sempre
+// com espaçamento próprio, nunca dentro de uma ferramenta/formulário,
+// nunca "flutuante" por cima do conteúdo.
+import { ADSENSE_CLIENT_ID, AD_SLOTS } from '../config/ads';
+
+interface Props {
+  slot: keyof typeof AD_SLOTS;
+}
+
+const { slot } = Astro.props;
+const slotId = AD_SLOTS[slot];
+const enabled = Boolean(ADSENSE_CLIENT_ID && slotId);
+---
+
+{enabled && (
+  <div class="mx-auto my-10 max-w-6xl px-4">
+    <p class="mb-2 text-center font-mono text-[10px] uppercase tracking-wide" style="color: var(--color-text-muted);">
+      Publicidade
+    </p>
+    <ins
+      class="adsbygoogle"
+      style="display:block"
+      data-ad-client={ADSENSE_CLIENT_ID}
+      data-ad-slot={slotId}
+      data-ad-format="auto"
+      data-full-width-responsive="true"
+    />
+    <script is:inline>
+      (window.adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+  </div>
+)}

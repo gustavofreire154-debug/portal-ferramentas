@@ -1,0 +1,118 @@
+---
+// O Hero é a "vitrine" do site. Em vez de um hero genérico (headline +
+// botão), o elemento de assinatura aqui é a busca em estilo "command
+// palette" — como o Cmd+K de editores de código. Faz sentido para um
+// portal de FERRAMENTAS: transmite velocidade e precisão técnica.
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  tools: CollectionEntry<'tools'>[];
+}
+
+const { tools } = Astro.props;
+
+// Lista enxuta enviada ao navegador só com o necessário para a busca funcionar.
+const searchIndex = tools.map((t) => ({
+  id: t.id,
+  name: t.data.name,
+  category: t.data.category,
+}));
+---
+
+<section class="mx-auto max-w-6xl px-4 pb-20 pt-20 text-center sm:pt-28">
+  <p class="eyebrow">Mais de {tools.length} ferramentas gratuitas</p>
+  <h1 class="font-display mx-auto mt-4 max-w-2xl text-4xl font-bold leading-tight sm:text-6xl">
+    A ferramenta certa,
+    <span style="color: var(--color-accent);">em segundos.</span>
+  </h1>
+  <p class="mx-auto mt-5 max-w-lg text-lg" style="color: var(--color-text-muted);">
+    Calculadoras, conversores e utilitários de PDF e imagem. Sem cadastro,
+    sem instalar nada.
+  </p>
+
+  <div class="relative mx-auto mt-10 max-w-xl">
+    <div
+      class="flex items-center gap-3 rounded-xl border px-4 py-3.5 shadow-sm transition focus-within:border-[var(--color-accent)]"
+      style="border-color: var(--color-border); background: var(--color-surface);"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" class="h-4 w-4 shrink-0" style="color: var(--color-text-muted);">
+        <circle cx="11" cy="11" r="7"></circle>
+        <path d="m21 21-4.3-4.3"></path>
+      </svg>
+      <input
+        id="tool-search"
+        type="text"
+        placeholder="Buscar uma ferramenta..."
+        autocomplete="off"
+        class="w-full bg-transparent text-sm outline-none placeholder:text-[var(--color-text-muted)]"
+      />
+      <kbd
+        class="hidden rounded-md border px-1.5 py-0.5 font-mono text-[10px] sm:block"
+        style="border-color: var(--color-border); color: var(--color-text-muted);"
+      >
+        /
+      </kbd>
+    </div>
+
+    <ul
+      id="search-results"
+      class="absolute z-20 mt-2 hidden w-full overflow-hidden rounded-xl border text-left shadow-lg"
+      style="border-color: var(--color-border); background: var(--color-surface);"
+    >
+    </ul>
+  </div>
+</section>
+
+<script type="application/json" id="search-index" set:html={JSON.stringify(searchIndex)} />
+
+<script>
+  const index = JSON.parse(document.getElementById('search-index')?.textContent || '[]') as {
+    id: string;
+    name: string;
+    category: string;
+  }[];
+
+  const input = document.getElementById('tool-search') as HTMLInputElement | null;
+  const results = document.getElementById('search-results');
+
+  function render(items: typeof index) {
+    if (!results) return;
+    if (items.length === 0) {
+      results.classList.add('hidden');
+      results.innerHTML = '';
+      return;
+    }
+    results.innerHTML = items
+      .slice(0, 6)
+      .map(
+        (item) =>
+          `<li><a href="/ferramentas/${item.id}" class="flex items-center justify-between px-4 py-3 text-sm transition hover:bg-[var(--color-accent-soft)]">
+            <span>${item.name}</span>
+            <span class="font-mono text-xs opacity-60">${item.category}</span>
+          </a></li>`
+      )
+      .join('');
+    results.classList.remove('hidden');
+  }
+
+  input?.addEventListener('input', () => {
+    const query = input.value.trim().toLowerCase();
+    if (!query) {
+      render([]);
+      return;
+    }
+    render(index.filter((item) => item.name.toLowerCase().includes(query)));
+  });
+
+  input?.addEventListener('blur', () => {
+    // Pequeno delay para permitir o clique no resultado antes de esconder a lista.
+    setTimeout(() => results?.classList.add('hidden'), 150);
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === '/' && document.activeElement !== input) {
+      e.preventDefault();
+      input?.focus();
+    }
+  });
+</script>

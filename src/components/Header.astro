@@ -1,0 +1,60 @@
+---
+import ThemeToggle from './ThemeToggle.astro';
+---
+
+<header
+  class="sticky top-0 z-40 border-b backdrop-blur"
+  style="border-color: var(--color-border); background: color-mix(in srgb, var(--color-bg) 85%, transparent);"
+>
+  <div class="mx-auto flex max-w-6xl items-center justify-between px-4 py-4">
+    <a href="/" class="font-display flex items-center gap-2 text-lg font-semibold">
+      <span
+        class="grid h-8 w-8 place-items-center rounded-lg text-sm"
+        style="background: var(--color-accent-soft); color: var(--color-accent);"
+      >
+        ⚙
+      </span>
+      Portal de Ferramentas
+    </a>
+
+    <nav class="hidden items-center gap-8 text-sm sm:flex">
+      <a href="/ferramentas" class="transition hover:text-[var(--color-accent)]">Ferramentas</a>
+      <a href="/blog" class="transition hover:text-[var(--color-accent)]">Blog</a>
+      <a href="/categorias" class="transition hover:text-[var(--color-accent)]">Categorias</a>
+    </nav>
+
+    <div class="flex items-center gap-3">
+      <ThemeToggle />
+      <button
+        id="menu-toggle"
+        type="button"
+        aria-label="Abrir menu"
+        class="grid h-9 w-9 place-items-center rounded-lg border sm:hidden"
+        style="border-color: var(--color-border);"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" class="h-4 w-4">
+          <path d="M4 7h16M4 12h16M4 17h16"></path>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <nav
+    id="mobile-menu"
+    class="hidden flex-col gap-1 border-t px-4 py-3 text-sm sm:hidden"
+    style="border-color: var(--color-border);"
+  >
+    <a href="/ferramentas" class="rounded-lg px-3 py-2 hover:bg-[var(--color-accent-soft)]">Ferramentas</a>
+    <a href="/blog" class="rounded-lg px-3 py-2 hover:bg-[var(--color-accent-soft)]">Blog</a>
+    <a href="/categorias" class="rounded-lg px-3 py-2 hover:bg-[var(--color-accent-soft)]">Categorias</a>
+  </nav>
+</header>
+
+<script>
+  const menuBtn = document.getElementById('menu-toggle');
+  const menu = document.getElementById('mobile-menu');
+  menuBtn?.addEventListener('click', () => {
+    menu?.classList.toggle('hidden');
+    menu?.classList.toggle('flex');
+  });
+</script>

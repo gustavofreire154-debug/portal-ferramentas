@@ -1,0 +1,122 @@
+---
+// Rota dinâmica: UMA página deste arquivo gera automaticamente TODAS as
+// páginas de ferramentas, uma para cada arquivo dentro de src/content/tools.
+// É isso que permite escalar para milhares de ferramentas sem criar
+// milhares de arquivos de página — só de conteúdo.
+import Layout from '../../layouts/Layout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import AdSlot from '../../components/AdSlot.astro';
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import { categories } from '../../config/categories';
+import PercentageCalculator from '../../islands/PercentageCalculator';
+import WordCounter from '../../islands/WordCounter';
+import BmiCalculator from '../../islands/BmiCalculator';
+import ImageCompressor from '../../islands/ImageCompressor';
+import PdfMerger from '../../islands/PdfMerger';
+import CurrencyConverter from '../../islands/CurrencyConverter';
+import JsonFormatter from '../../islands/JsonFormatter';
+
+const KNOWN_TOOLS = [
+  'calculadora-de-porcentagem',
+  'contador-de-palavras',
+  'calculadora-de-imc',
+  'compressor-de-imagem',
+  'juntar-pdf',
+  'conversor-de-moedas',
+  'formatador-de-json',
+];
+
+export async function getStaticPaths() {
+  const tools = await getCollection('tools');
+  return tools.map((tool) => ({
+    params: { slug: tool.id },
+    props: { tool },
+  }));
+}
+
+interface Props {
+  tool: CollectionEntry<'tools'>;
+}
+
+const { tool } = Astro.props;
+const { Content } = await render(tool);
+
+const categoryInfo = categories.find((c) => c.slug === tool.data.category);
+
+const breadcrumbItems = [
+  { name: 'Início', path: '/' },
+  { name: 'Ferramentas', path: '/ferramentas' },
+  { name: categoryInfo?.name ?? tool.data.category, path: `/categorias/${tool.data.category}` },
+  { name: tool.data.name, path: `/ferramentas/${tool.id}` },
+];
+
+// Schema.org FAQPage: quando a ferramenta tem perguntas frequentes,
+// isso pode fazer o Google exibir as respostas direto no resultado
+// de busca (os "acordeões" que aparecem embaixo do link azul).
+const faqSchema =
+  tool.data.faq.length > 0
+    ? {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: tool.data.faq.map((item) => ({
+          '@type': 'Question',
+          name: item.question,
+          acceptedAnswer: { '@type': 'Answer', text: item.answer },
+        })),
+      }
+    : null;
+---
+
+<Layout title={tool.data.seo.title} description={tool.data.seo.description}>
+  {faqSchema && (
+    <script slot="head" type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+  )}
+  <article class="mx-auto max-w-3xl px-4 py-16">
+    <Breadcrumbs items={breadcrumbItems} />
+    <p class="eyebrow">{tool.data.category}</p>
+    <h1 class="font-display mt-2 text-3xl font-bold">{tool.data.name}</h1>
+    <p class="mt-4" style="color: var(--color-text-muted);">{tool.data.description}</p>
+
+    <div class="mt-10">
+      {tool.id === 'calculadora-de-porcentagem' && <PercentageCalculator client:load />}
+      {tool.id === 'contador-de-palavras' && <WordCounter client:load />}
+      {tool.id === 'calculadora-de-imc' && <BmiCalculator client:load />}
+      {tool.id === 'compressor-de-imagem' && <ImageCompressor client:load />}
+      {tool.id === 'juntar-pdf' && <PdfMerger client:load />}
+      {tool.id === 'conversor-de-moedas' && <CurrencyConverter client:load />}
+      {tool.id === 'formatador-de-json' && <JsonFormatter client:load />}
+      {!KNOWN_TOOLS.includes(tool.id) && (
+        <div
+          class="rounded-xl border border-dashed p-8 text-center text-sm"
+          style="border-color: var(--color-border); color: var(--color-text-muted);"
+        >
+          {/* Esta ferramenta ainda não tem a calculadora interativa implementada */}
+          Esta ferramenta ainda está sendo construída — em breve estará disponível aqui.
+        </div>
+      )}
+    </div>
+
+    <div class="prose dark:prose-invert mt-10 max-w-none">
+      <Content />
+    </div>
+
+    {/* Anúncio posicionado só aqui: depois que o usuário já usou a
+        ferramenta e leu o conteúdo — nunca perto dos campos de entrada,
+        nunca antes do usuário conseguir usar a calculadora. */}
+    <AdSlot slot="toolBottom" />
+
+    {tool.data.faq.length > 0 && (
+      <section class="mt-12">
+        <h2 class="font-display text-xl font-semibold">Perguntas frequentes</h2>
+        <dl class="mt-4 space-y-4">
+          {tool.data.faq.map((item) => (
+            <div>
+              <dt class="font-medium">{item.question}</dt>
+              <dd class="mt-1 text-sm" style="color: var(--color-text-muted);">{item.answer}</dd>
+            </div>
+          ))}
+        </dl>
+      </section>
+    )}
+  </article>
+</Layout>
