@@ -15,6 +15,11 @@ import ImageCompressor from '../../islands/ImageCompressor';
 import PdfMerger from '../../islands/PdfMerger';
 import CurrencyConverter from '../../islands/CurrencyConverter';
 import JsonFormatter from '../../islands/JsonFormatter';
+import BackgroundRemover from '../../islands/BackgroundRemover';
+import ImageConverter from '../../islands/ImageConverter';
+import ImageToPdf from '../../islands/ImageToPdf';
+import PdfToImages from '../../islands/PdfToImages';
+import PdfToWord from '../../islands/PdfToWord';
 
 const KNOWN_TOOLS = [
   'calculadora-de-porcentagem',
@@ -24,6 +29,11 @@ const KNOWN_TOOLS = [
   'juntar-pdf',
   'conversor-de-moedas',
   'formatador-de-json',
+  'removedor-de-fundo',
+  'conversor-de-imagem',
+  'imagem-para-pdf',
+  'pdf-para-jpg',
+  'pdf-para-word',
 ];
 
 export async function getStaticPaths() {
@@ -85,6 +95,11 @@ const faqSchema =
       {tool.id === 'juntar-pdf' && <PdfMerger client:load />}
       {tool.id === 'conversor-de-moedas' && <CurrencyConverter client:load />}
       {tool.id === 'formatador-de-json' && <JsonFormatter client:load />}
+      {tool.id === 'removedor-de-fundo' && <BackgroundRemover client:load />}
+      {tool.id === 'conversor-de-imagem' && <ImageConverter client:load />}
+      {tool.id === 'imagem-para-pdf' && <ImageToPdf client:load />}
+      {tool.id === 'pdf-para-jpg' && <PdfToImages client:load />}
+      {tool.id === 'pdf-para-word' && <PdfToWord client:load />}
       {!KNOWN_TOOLS.includes(tool.id) && (
         <div
           class="rounded-xl border border-dashed p-8 text-center text-sm"
