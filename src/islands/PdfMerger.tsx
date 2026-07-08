@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import Dropzone from './shared/Dropzone';
 
 // Esta ferramenta usa a biblioteca "pdf-lib" — ela sabe ler e escrever
 // arquivos PDF em JavaScript puro, então todo o trabalho de juntar os
@@ -15,7 +16,7 @@ export default function PdfMerger() {
   const [resultUrl, setResultUrl] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  function addFiles(fileList: FileList) {
+  function addFiles(fileList: FileList | File[]) {
     const newItems = Array.from(fileList).map((file) => ({
       file,
       id: `${file.name}-${file.size}-${Math.random().toString(36).slice(2)}`,
@@ -69,14 +70,7 @@ export default function PdfMerger() {
       className="rounded-xl border p-5 sm:p-6"
       style={{ borderColor: 'var(--color-border)', background: 'var(--color-surface)' }}
     >
-      <input
-        type="file"
-        accept="application/pdf"
-        multiple
-        onChange={(e) => e.target.files && addFiles(e.target.files)}
-        className="block w-full text-sm file:mr-4 file:rounded-lg file:border-0 file:px-4 file:py-2 file:text-sm file:font-medium"
-        style={{ color: 'var(--color-text-muted)' }}
-      />
+      <Dropzone accept="application/pdf" multiple onFiles={addFiles} hint="Solte quantos PDFs quiser, na ordem que preferir" />
 
       {items.length > 0 && (
         <ul className="mt-5 space-y-2">

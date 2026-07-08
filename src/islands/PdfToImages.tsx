@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import Dropzone from './shared/Dropzone';
 
 // Usa a biblioteca "pdfjs-dist" (o motor de PDF do próprio Firefox) para
 // desenhar cada página do PDF num canvas invisível, que depois exportamos
@@ -77,16 +78,7 @@ export default function PdfToImages() {
       className="rounded-xl border p-5 sm:p-6"
       style={{ borderColor: 'var(--color-border)', background: 'var(--color-surface)' }}
     >
-      <input
-        type="file"
-        accept="application/pdf"
-        onChange={(e) => {
-          const file = e.target.files?.[0];
-          if (file) handleFile(file);
-        }}
-        className="block w-full text-sm file:mr-4 file:rounded-lg file:border-0 file:px-4 file:py-2 file:text-sm file:font-medium"
-        style={{ color: 'var(--color-text-muted)' }}
-      />
+      <Dropzone accept="application/pdf" onFiles={(files) => files[0] && handleFile(files[0])} />
 
       {isProcessing && (
         <p className="mt-4 text-sm" style={{ color: 'var(--color-text-muted)' }}>

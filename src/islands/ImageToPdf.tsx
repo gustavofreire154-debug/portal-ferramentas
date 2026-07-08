@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import Dropzone from './shared/Dropzone';
 
 // Usa a mesma biblioteca "pdf-lib" da ferramenta de juntar PDF: ela sabe
 // criar um PDF do zero e colar imagens dentro dele, uma por página.
@@ -15,7 +16,7 @@ export default function ImageToPdf() {
   const [resultUrl, setResultUrl] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  function addFiles(fileList: FileList) {
+  function addFiles(fileList: FileList | File[]) {
     const newItems = Array.from(fileList).map((file) => ({
       file,
       id: `${file.name}-${file.size}-${Math.random().toString(36).slice(2)}`,
@@ -70,14 +71,7 @@ export default function ImageToPdf() {
       className="rounded-xl border p-5 sm:p-6"
       style={{ borderColor: 'var(--color-border)', background: 'var(--color-surface)' }}
     >
-      <input
-        type="file"
-        accept="image/png, image/jpeg"
-        multiple
-        onChange={(e) => e.target.files && addFiles(e.target.files)}
-        className="block w-full text-sm file:mr-4 file:rounded-lg file:border-0 file:px-4 file:py-2 file:text-sm file:font-medium"
-        style={{ color: 'var(--color-text-muted)' }}
-      />
+      <Dropzone accept="image/png, image/jpeg" multiple onFiles={addFiles} hint="Solte quantas imagens quiser, uma por página" />
 
       {items.length > 0 && (
         <ul className="mt-5 space-y-2">
