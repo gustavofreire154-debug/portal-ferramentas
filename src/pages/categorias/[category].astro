@@ -39,7 +39,12 @@ const breadcrumbItems = [
     <Breadcrumbs items={breadcrumbItems} />
     <p class="eyebrow">Categoria</p>
     <h1 class="font-display mt-2 flex items-center gap-3 text-3xl font-bold sm:text-4xl">
-      <span>{category.icon}</span>
+      <span
+        class="grid h-11 w-11 place-items-center rounded-lg text-2xl"
+        style="background: var(--color-accent-soft);"
+      >
+        {category.icon}
+      </span>
       {category.name}
     </h1>
     <p class="mt-3" style="color: var(--color-text-muted);">{category.description}</p>
@@ -50,7 +55,7 @@ const breadcrumbItems = [
       </div>
     ) : (
       <div
-        class="mt-10 rounded-xl border border-dashed p-8 text-center text-sm"
+        class="glass-panel mt-10 rounded-xl border border-dashed p-8 text-center text-sm"
         style="border-color: var(--color-border); color: var(--color-text-muted);"
       >
         Ainda não temos ferramentas nesta categoria — em breve chegam novidades aqui.
