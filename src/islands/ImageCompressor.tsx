@@ -1,4 +1,5 @@
 import { useRef, useState } from 'react';
+import Dropzone from './shared/Dropzone';
 
 // Esta ferramenta NÃO usa nenhuma biblioteca externa — o próprio navegador
 // já sabe recomprimir imagens através da Canvas API (desenhamos a imagem
@@ -60,15 +61,9 @@ export default function ImageCompressor() {
       className="rounded-xl border p-5 sm:p-6"
       style={{ borderColor: 'var(--color-border)', background: 'var(--color-surface)' }}
     >
-      <input
-        type="file"
+      <Dropzone
         accept="image/png, image/jpeg, image/webp"
-        onChange={(e) => {
-          const file = e.target.files?.[0];
-          if (file) handleFile(file);
-        }}
-        className="block w-full text-sm file:mr-4 file:rounded-lg file:border-0 file:px-4 file:py-2 file:text-sm file:font-medium"
-        style={{ color: 'var(--color-text-muted)' }}
+        onFiles={(files) => files[0] && handleFile(files[0])}
       />
 
       {originalFile && (
