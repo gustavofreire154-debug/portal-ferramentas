@@ -24,15 +24,15 @@ const faqs = [
   <p class="eyebrow reveal">Dúvidas frequentes</p>
   <h2 class="font-display reveal mt-2 text-2xl font-semibold sm:text-3xl">Perguntas frequentes</h2>
 
-  <div class="mt-8 divide-y" style="border-color: var(--color-border);">
+  <div class="mt-8 space-y-2">
     {
       faqs.map((item) => (
-        <details class="reveal group py-4">
-          <summary class="flex cursor-pointer list-none items-center justify-between font-medium">
+        <details class="reveal group rounded-xl border px-4 py-1 transition [&[open]]:shadow-[var(--shadow-glow)]" style="border-color: var(--color-border);">
+          <summary class="flex cursor-pointer list-none items-center justify-between py-3 font-medium">
             {item.question}
             <span class="ml-4 shrink-0 transition group-open:rotate-45" style="color: var(--color-accent);">+</span>
           </summary>
-          <p class="mt-2 text-sm" style="color: var(--color-text-muted);">
+          <p class="pb-4 text-sm" style="color: var(--color-text-muted);">
             {item.answer}
           </p>
         </details>
