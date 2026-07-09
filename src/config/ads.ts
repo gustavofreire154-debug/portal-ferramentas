@@ -9,7 +9,7 @@
 // 2. Copie o "client" (algo como "ca-pub-1234567890123456") e cole abaixo.
 // 3. Para cada bloco de anúncio criado, copie o "slot" (um número) e
 //    preencha no lugar correspondente.
-export const ADSENSE_CLIENT_ID = ''; // ex: 'ca-pub-1234567890123456'
+export const ADSENSE_CLIENT_ID = 'ca-pub-6520284935730138';
 
 export const AD_SLOTS = {
   toolBottom: '', // anúncio abaixo da ferramenta/artigo
