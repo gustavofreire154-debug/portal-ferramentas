@@ -24,15 +24,10 @@ function countByCategory(slug: string) {
       categories.map((category) => (
         <a
           href={`/categorias/${category.slug}`}
-          class="reveal glow-card gradient-border-top group relative flex flex-col overflow-hidden rounded-xl border p-4 transition hover:-translate-y-0.5"
+          class="reveal group flex flex-col rounded-xl border p-4 transition hover:-translate-y-0.5"
           style="border-color: var(--color-border); background: var(--color-surface);"
         >
-          <span
-            class="grid h-9 w-9 place-items-center rounded-lg text-lg"
-            style="background: var(--color-accent-soft);"
-          >
-            {category.icon}
-          </span>
+          <span class="text-xl">{category.icon}</span>
           <span class="font-display mt-2 text-sm font-semibold transition group-hover:text-[var(--color-accent)]">
             {category.name}
           </span>

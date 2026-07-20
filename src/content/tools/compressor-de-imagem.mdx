@@ -11,6 +11,37 @@ seo:
 faq:
   - question: "Minhas imagens são enviadas para algum servidor?"
     answer: "Não — o processamento acontece no seu próprio navegador."
+  - question: "Qual o melhor nível de qualidade para usar?"
+    answer: "Entre 60% e 80% costuma reduzir bastante o tamanho do arquivo sem perda visível. Abaixo de 40%, artefatos de compressão ficam perceptíveis."
+  - question: "Por que a ferramenta exporta sempre em JPG?"
+    answer: "JPG é o formato mais eficiente para fotos com compressão ajustável. Para imagens com transparência (como logos), o PNG original preserva melhor a qualidade, mas gera arquivos maiores."
 ---
 
-Conteúdo explicativo da ferramenta de compressão de imagem.
+Fotos tiradas por celulares modernos costumam pesar vários megabytes —
+ótimo pra qualidade, mas ruim quando você precisa anexar em um e-mail,
+enviar num formulário com limite de tamanho, ou deixar um site carregando
+mais rápido. Esta ferramenta reduz o peso do arquivo sem abrir mão da
+qualidade visual, tudo processado localmente no seu navegador.
+
+## Como funciona a compressão
+
+A ferramenta usa a técnica de compressão "com perdas" (lossy), que é a
+mesma usada por qualquer editor de imagem profissional: ela simplifica
+pequenos detalhes que o olho humano dificilmente percebe, mas que ocupam
+bastante espaço no arquivo. Quanto menor o valor de qualidade escolhido,
+mais agressiva é essa simplificação.
+
+## Quando comprimir uma imagem
+
+- Antes de anexar fotos em e-mail ou formulários com limite de tamanho.
+- Antes de subir imagens para um site (imagens pesadas são a causa mais
+  comum de sites lentos).
+- Antes de enviar fotos por WhatsApp Web ou redes sociais que aceitam
+  arquivo original (evita a compressão automática e às vezes agressiva
+  da própria plataforma).
+
+## Dica prática
+
+Se a imagem final ainda estiver maior do que você precisa, tente
+diminuir a qualidade em passos de 10 em 10% até encontrar o equilíbrio
+entre tamanho de arquivo e nitidez que funciona para o seu uso.

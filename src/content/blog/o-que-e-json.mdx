@@ -1,0 +1,58 @@
+---
+title: "O Que É JSON e Por Que Ele É Usado em Quase Toda API"
+description: "Entenda o que é JSON, por que ele se tornou o formato padrão de troca de dados e como identificar erros comuns."
+publishDate: 2026-07-14
+status: "published"
+generatedByAI: true
+relatedTool: "formatador-de-json"
+seo:
+  title: "O Que É JSON? Guia Para Iniciantes (2026)"
+  description: "Entenda o que é JSON, para que serve e como corrigir os erros mais comuns nesse formato."
+---
+
+## O que significa JSON
+
+JSON é a sigla para JavaScript Object Notation — um formato de texto
+simples, criado a partir da sintaxe de objetos do JavaScript, usado para
+representar dados de forma organizada e legível tanto por humanos quanto
+por máquinas. Apesar do nome, o JSON é usado por praticamente todas as
+linguagens de programação atuais, não só JavaScript.
+
+## Por que o JSON se tornou tão popular
+
+Antes do JSON, o formato mais comum para troca de dados entre sistemas
+era o XML — mais verboso e mais difícil de ler. O JSON ganhou espaço por
+ser mais compacto, mais simples de interpretar e mais leve para
+transmitir pela internet, o que o tornou o padrão de fato para APIs REST,
+arquivos de configuração e bancos de dados NoSQL como o MongoDB.
+
+## Estrutura básica
+
+Um JSON é formado por pares de "chave" e "valor", entre chaves `{}` para
+objetos e colchetes `[]` para listas:
+
+```json
+{
+  "nome": "Portal de Ferramentas",
+  "gratuito": true,
+  "categorias": ["pdf", "imagem", "calculadoras"]
+}
+```
+
+## Erros mais comuns
+
+- **Vírgula sobrando** depois do último item de uma lista ou objeto —
+  esse é o erro mais frequente de todos.
+- **Aspas simples em vez de duplas** — o formato JSON exige aspas duplas
+  em todas as strings e nomes de chave.
+- **Chaves ou colchetes não fechados** corretamente, especialmente em
+  estruturas aninhadas (JSON dentro de JSON).
+- **Comentários dentro do arquivo** — o JSON padrão não permite
+  comentários, diferente de formatos derivados como o JSON5.
+
+## Quando usar um validador
+
+Sempre que um JSON vier de uma fonte externa — resposta de uma API,
+arquivo de configuração compartilhado, ou copiado de algum lugar — vale
+validar antes de usar em produção. Um único caractere fora do lugar pode
+quebrar o processamento inteiro do arquivo.

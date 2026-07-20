@@ -7,7 +7,35 @@ isNew: true
 seo:
   title: "Formatador de JSON Online Grátis"
   description: "Formate, valide e visualize JSON gratuitamente, direto no navegador."
-faq: []
+faq:
+  - question: "O que significa o erro que aparece ao formatar?"
+    answer: "A mensagem indica exatamente onde o JSON está inválido — geralmente é uma vírgula sobrando, uma aspas faltando, ou chaves/colchetes não fechados corretamente."
+  - question: "Qual a diferença entre formatar e minificar?"
+    answer: "Formatar deixa o JSON legível, com indentação e quebras de linha. Minificar remove todos os espaços, deixando o arquivo o menor possível — ideal para produção."
+  - question: "Meu JSON é enviado para algum servidor?"
+    answer: "Não — a validação e formatação usam apenas recursos nativos do navegador, sem enviar nada externamente."
 ---
 
-Conteúdo explicativo do formatador de JSON.
+JSON (JavaScript Object Notation) é o formato mais usado hoje para troca
+de dados entre sistemas — APIs, arquivos de configuração e bancos de
+dados NoSQL costumam usá-lo. O problema é que, quando vem "cru" (sem
+formatação), especialmente depois de copiado de um log ou resposta de
+API, o JSON vira uma linha só, praticamente impossível de ler.
+
+## Formatar vs. minificar
+
+**Formatar** organiza o JSON em várias linhas, com indentação — ideal
+para leitura humana, depuração de código ou documentação.
+
+**Minificar** faz o oposto: remove todos os espaços e quebras de linha
+desnecessários, deixando o arquivo o menor possível em bytes — é o
+formato ideal para enviar em produção, já que economiza tráfego de rede.
+
+## Erros mais comuns em JSON inválido
+
+- Vírgula sobrando depois do último item de uma lista ou objeto.
+- Uso de aspas simples (`'`) em vez de aspas duplas (`"`) — JSON exige
+  aspas duplas.
+- Chaves `{}` ou colchetes `[]` não fechados corretamente.
+- Comentários dentro do JSON (o formato JSON puro não permite comentários,
+  diferente do JSON5 ou de arquivos de configuração como o `.jsonc`).

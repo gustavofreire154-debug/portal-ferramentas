@@ -1,0 +1,17 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "dev",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev"],
+      "port": 4321
+    },
+    {
+      "name": "censo-ip",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "http.server", "5544", "--directory", "C:/Users/adm/OneDrive/Aplicativos/Área de Trabalho/ARQUIVOS GUSTAVO-PESSOAL/Censo ip - site gestão do censo/SITE CENSO + IP/censo-ip"],
+      "port": 5544
+    }
+  ]
+}

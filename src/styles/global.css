@@ -26,17 +26,6 @@
   --color-accent: #0e8f82;
   --color-accent-soft: #e3f3f1;
   --color-signal: #e98a2e;
-
-  /* Tokens "premium": segunda cor para gradientes + glow/glass.
-     Aditivos — nada acima foi renomeado, então nenhum componente quebra. */
-  --color-accent-2: #6d5ef8;
-  --color-glow-1: color-mix(in srgb, var(--color-accent) 35%, transparent);
-  --color-glow-2: color-mix(in srgb, var(--color-accent-2) 35%, transparent);
-  --surface-glass: color-mix(in srgb, var(--color-surface) 72%, transparent);
-  --gradient-brand: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-2) 100%);
-  --shadow-elevated: 0 1px 2px rgba(20, 23, 26, 0.04), 0 12px 32px -12px rgba(20, 23, 26, 0.12);
-  --shadow-glow: 0 0 0 1px var(--color-border), 0 0 32px -14px var(--color-glow-1);
-  --shadow-glow-hover: 0 0 0 1px color-mix(in srgb, var(--color-accent) 40%, var(--color-border)), 0 16px 40px -12px var(--color-glow-1);
 }
 
 .dark {
@@ -48,14 +37,6 @@
   --color-accent: #2bd9c4;
   --color-accent-soft: #10302c;
   --color-signal: #f2a73b;
-
-  --color-accent-2: #9b8cff;
-  --color-glow-1: color-mix(in srgb, var(--color-accent) 55%, transparent);
-  --color-glow-2: color-mix(in srgb, var(--color-accent-2) 55%, transparent);
-  --surface-glass: color-mix(in srgb, var(--color-surface) 55%, transparent);
-  --shadow-elevated: 0 1px 2px rgba(0, 0, 0, 0.3), 0 20px 60px -16px rgba(0, 0, 0, 0.6);
-  --shadow-glow: 0 0 0 1px var(--color-border), 0 0 60px -12px var(--color-glow-1);
-  --shadow-glow-hover: 0 0 0 1px color-mix(in srgb, var(--color-accent) 50%, var(--color-border)), 0 20px 60px -10px var(--color-glow-1);
 }
 
 html {
@@ -95,81 +76,4 @@ html {
 .reveal.is-visible {
   opacity: 1;
   transform: translateY(0);
-}
-
-/* ============================================================
-   CHROME PREMIUM (gradiente + glow + glass)
-   Usado só no "chrome" de navegação/marketing (header, hero, cards
-   de navegação, footer, newsletter, faq) — NÃO dentro das ilhas de
-   ferramenta, que ficam com o cartão simples de sempre (foco no uso).
-   ============================================================ */
-
-/* Texto com recorte de gradiente — usado no destaque do H1 do Hero
-   e em acentos pontuais de título de seção. */
-.text-gradient {
-  background: var(--gradient-brand);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-
-/* Painel "vidro fosco": header, dropdown de busca, newsletter. */
-.glass-panel {
-  background: var(--surface-glass);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-}
-
-/* Cartão com glow sutil no hover, somado ao lift (-translate-y) que
-   já existe via Tailwind nos componentes que usam essa classe. */
-.glow-card {
-  box-shadow: var(--shadow-glow);
-  transition: box-shadow 0.3s ease, transform 0.3s ease, border-color 0.3s ease;
-}
-.glow-card:hover {
-  box-shadow: var(--shadow-glow-hover);
-}
-
-/* Linha de gradiente no topo do cartão, revelada no hover. Requer que
-   o elemento pai tenha "relative" e "overflow-hidden" (ou cantos
-   arredondados) para o recorte ficar correto. */
-.gradient-border-top {
-  position: relative;
-}
-.gradient-border-top::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: var(--gradient-brand);
-  border-radius: 999px 999px 0 0;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-.gradient-border-top:hover::before {
-  opacity: 1;
-}
-
-/* Blobs de gradiente desfocados, decorativos, atrás do conteúdo do
-   Hero/Newsletter. O elemento pai precisa de "relative; overflow-hidden". */
-.ambient-blob {
-  position: absolute;
-  border-radius: 9999px;
-  filter: blur(80px);
-  pointer-events: none;
-  z-index: 0;
-  opacity: 0.5;
-}
-
-/* CTA primário em gradiente — reservado para Hero/Newsletter, não
-   substitui o botão sólido (var(--color-accent)) usado dentro das ilhas. */
-.btn-gradient {
-  background: var(--gradient-brand);
-  color: #fff;
-  transition: filter 0.2s ease, transform 0.2s ease;
-}
-.btn-gradient:hover {
-  filter: brightness(1.1);
 }

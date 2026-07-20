@@ -15,32 +15,6 @@ import ImageCompressor from '../../islands/ImageCompressor';
 import PdfMerger from '../../islands/PdfMerger';
 import CurrencyConverter from '../../islands/CurrencyConverter';
 import JsonFormatter from '../../islands/JsonFormatter';
-import BackgroundRemover from '../../islands/BackgroundRemover';
-import ImageConverter from '../../islands/ImageConverter';
-import ImageToPdf from '../../islands/ImageToPdf';
-import PdfToImages from '../../islands/PdfToImages';
-import PdfToWord from '../../islands/PdfToWord';
-import MetaTagGenerator from '../../islands/MetaTagGenerator';
-import KeywordDensityChecker from '../../islands/KeywordDensityChecker';
-import RobotsTxtGenerator from '../../islands/RobotsTxtGenerator';
-import UtmLinkGenerator from '../../islands/UtmLinkGenerator';
-import MarketingRoiCalculator from '../../islands/MarketingRoiCalculator';
-import HeadlineGenerator from '../../islands/HeadlineGenerator';
-import AiPromptBuilder from '../../islands/AiPromptBuilder';
-import AiTokenCalculator from '../../islands/AiTokenCalculator';
-import AiCostComparator from '../../islands/AiCostComparator';
-import SocialCharCounter from '../../islands/SocialCharCounter';
-import HashtagGenerator from '../../islands/HashtagGenerator';
-import FancyTextGenerator from '../../islands/FancyTextGenerator';
-import CompoundInterestCalculator from '../../islands/CompoundInterestCalculator';
-import LoanSimulator from '../../islands/LoanSimulator';
-import EmergencyFundCalculator from '../../islands/EmergencyFundCalculator';
-import GradeAverageCalculator from '../../islands/GradeAverageCalculator';
-import GradeScaleConverter from '../../islands/GradeScaleConverter';
-import PomodoroTimer from '../../islands/PomodoroTimer';
-import PasswordGenerator from '../../islands/PasswordGenerator';
-import QrCodeGenerator from '../../islands/QrCodeGenerator';
-import NameDrawer from '../../islands/NameDrawer';
 
 const KNOWN_TOOLS = [
   'calculadora-de-porcentagem',
@@ -50,32 +24,6 @@ const KNOWN_TOOLS = [
   'juntar-pdf',
   'conversor-de-moedas',
   'formatador-de-json',
-  'removedor-de-fundo',
-  'conversor-de-imagem',
-  'imagem-para-pdf',
-  'pdf-para-jpg',
-  'pdf-para-word',
-  'gerador-de-meta-tags',
-  'verificador-de-densidade-de-palavras-chave',
-  'gerador-de-robots-txt',
-  'gerador-de-link-utm',
-  'calculadora-de-roi-de-marketing',
-  'gerador-de-headlines',
-  'montador-de-prompts-para-ia',
-  'calculadora-de-tokens-de-ia',
-  'comparador-de-custo-de-ia',
-  'contador-de-caracteres-para-redes-sociais',
-  'gerador-de-hashtags',
-  'gerador-de-fonte-estilizada',
-  'calculadora-de-juros-compostos',
-  'simulador-de-financiamento',
-  'calculadora-de-reserva-de-emergencia',
-  'calculadora-de-media-escolar',
-  'conversor-de-notas-e-conceitos',
-  'cronometro-pomodoro',
-  'gerador-de-senha',
-  'gerador-de-qr-code',
-  'sorteador-de-nomes',
 ];
 
 export async function getStaticPaths() {
@@ -127,7 +75,6 @@ const faqSchema =
     <Breadcrumbs items={breadcrumbItems} />
     <p class="eyebrow">{tool.data.category}</p>
     <h1 class="font-display mt-2 text-3xl font-bold">{tool.data.name}</h1>
-    <div class="mt-3 h-0.5 w-12 rounded-full" style="background: var(--gradient-brand);"></div>
     <p class="mt-4" style="color: var(--color-text-muted);">{tool.data.description}</p>
 
     <div class="mt-10">
@@ -138,35 +85,9 @@ const faqSchema =
       {tool.id === 'juntar-pdf' && <PdfMerger client:load />}
       {tool.id === 'conversor-de-moedas' && <CurrencyConverter client:load />}
       {tool.id === 'formatador-de-json' && <JsonFormatter client:load />}
-      {tool.id === 'removedor-de-fundo' && <BackgroundRemover client:load />}
-      {tool.id === 'conversor-de-imagem' && <ImageConverter client:load />}
-      {tool.id === 'imagem-para-pdf' && <ImageToPdf client:load />}
-      {tool.id === 'pdf-para-jpg' && <PdfToImages client:load />}
-      {tool.id === 'pdf-para-word' && <PdfToWord client:load />}
-      {tool.id === 'gerador-de-meta-tags' && <MetaTagGenerator client:load />}
-      {tool.id === 'verificador-de-densidade-de-palavras-chave' && <KeywordDensityChecker client:load />}
-      {tool.id === 'gerador-de-robots-txt' && <RobotsTxtGenerator client:load />}
-      {tool.id === 'gerador-de-link-utm' && <UtmLinkGenerator client:load />}
-      {tool.id === 'calculadora-de-roi-de-marketing' && <MarketingRoiCalculator client:load />}
-      {tool.id === 'gerador-de-headlines' && <HeadlineGenerator client:load />}
-      {tool.id === 'montador-de-prompts-para-ia' && <AiPromptBuilder client:load />}
-      {tool.id === 'calculadora-de-tokens-de-ia' && <AiTokenCalculator client:load />}
-      {tool.id === 'comparador-de-custo-de-ia' && <AiCostComparator client:load />}
-      {tool.id === 'contador-de-caracteres-para-redes-sociais' && <SocialCharCounter client:load />}
-      {tool.id === 'gerador-de-hashtags' && <HashtagGenerator client:load />}
-      {tool.id === 'gerador-de-fonte-estilizada' && <FancyTextGenerator client:load />}
-      {tool.id === 'calculadora-de-juros-compostos' && <CompoundInterestCalculator client:load />}
-      {tool.id === 'simulador-de-financiamento' && <LoanSimulator client:load />}
-      {tool.id === 'calculadora-de-reserva-de-emergencia' && <EmergencyFundCalculator client:load />}
-      {tool.id === 'calculadora-de-media-escolar' && <GradeAverageCalculator client:load />}
-      {tool.id === 'conversor-de-notas-e-conceitos' && <GradeScaleConverter client:load />}
-      {tool.id === 'cronometro-pomodoro' && <PomodoroTimer client:load />}
-      {tool.id === 'gerador-de-senha' && <PasswordGenerator client:load />}
-      {tool.id === 'gerador-de-qr-code' && <QrCodeGenerator client:load />}
-      {tool.id === 'sorteador-de-nomes' && <NameDrawer client:load />}
       {!KNOWN_TOOLS.includes(tool.id) && (
         <div
-          class="glass-panel rounded-xl border border-dashed p-8 text-center text-sm"
+          class="rounded-xl border border-dashed p-8 text-center text-sm"
           style="border-color: var(--color-border); color: var(--color-text-muted);"
         >
           {/* Esta ferramenta ainda não tem a calculadora interativa implementada */}
